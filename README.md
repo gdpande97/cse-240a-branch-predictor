@@ -9,9 +9,9 @@ For this task, you will build 2 predictors based on the skeleton code. The first
 
 Here are some papers that you can refer to for the custom design:
 
-### [TAGE] (https://www.irisa.fr/caps/people/seznec/JILP-COTTAGE.pdf)
-### [Perceptron] (https://www.cs.utexas.edu/~lin/papers/hpca01.pdf)
-### [YAGS] (https://safari.ethz.ch/digitaltechnik/spring2021/lib/exe/fetch.php?media=mudge_yags.pdf)
+### [TAGE](https://www.irisa.fr/caps/people/seznec/JILP-COTTAGE.pdf)
+### [Perceptron](https://www.cs.utexas.edu/~lin/papers/hpca01.pdf)
+### [YAGS](https://safari.ethz.ch/digitaltechnik/spring2021/lib/exe/fetch.php?media=mudge_yags.pdf)
 
 You can of course search on your own and implement any other branch predictor you want. 
 
