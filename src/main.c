@@ -31,6 +31,7 @@ usage()
                  "    custom\n");
 }
 
+
 // Process an option and update the predictor
 // configuration variables accordingly
 //
@@ -41,9 +42,13 @@ handle_option(char *arg)
 {
   if (!strcmp(arg,"--static")) {
     bpType = STATIC;
-  } else if (!strncmp(arg,"--gshare:",9)) {
+  } else if (!strncmp(arg,"--gshare",8)) {
     bpType = GSHARE;
-    sscanf(arg+9,"%d", &ghistoryBits);
+    // sscanf(arg+9,"%d", &ghistoryBits);
+  } else if (!strncmp(arg,"--tournament",12)) {
+    bpType = TOURNAMENT;
+  } else if (!strncmp(arg,"--custom",8)) {
+    bpType = CUSTOM;
   } else if (!strcmp(arg,"--verbose")) {
     verbose = 1;
   } else {

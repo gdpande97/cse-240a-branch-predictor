@@ -24,7 +24,8 @@ const char *email       = "gdeshpande@ucsd.edu";
 const char *bpName[4] = { "Static", "Gshare",
                           "Tournament", "Custom" };
 
-int ghistoryBits; // Number of bits used for Global History
+//define number of bits required for indexing the BHT here. 
+int ghistoryBits = 10; // Number of bits used for Global History
 int bpType;       // Branch Prediction Type
 int verbose;
 
@@ -60,7 +61,7 @@ void init_gshare() {
 
 
 
-u_int8_t 
+uint8_t 
 gshare_predict(uint32_t pc) {
   int historyBits = 1 << ghistoryBits;
   int pc_lower_bits = pc & (historyBits - 1);

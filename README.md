@@ -27,6 +27,13 @@ bunzip2 -kc /path/to/trace | ./predictor --predictor_type
 
 You will add the tournament code based on the implementation that can be found in the Alpha 21264 paper. There is a slight modification to the paper design - we are using 2 bit saturating counters for the predictor instead of 3.
 
+## What should you edit?
+
+You need to edit the predictor.c for the most part. Add your functions and make sure they are referenced correctly so that your code runs perfectly. Do not edit any other files.
+
 ## Deliverables
 
 The code, of course!!! We need to get the link of a git repository that you are using to store this code. Please make sure you are using the main branch of the git repository for your final submission. Along with this, you will also submit a PDF, which will include a brief description of your choice of custom predictor and its implementation. You should also include a table which shows the performance of the tournament predictor as well as your custom predictor for all the given traces. You should also include a table which shows your total hardware budget usage.
+
+
+
