@@ -25,7 +25,7 @@ const char *bpName[4] = { "Static", "Gshare",
                           "Tournament", "Custom" };
 
 //define number of bits required for indexing the BHT here. 
-int ghistoryBits = 10; // Number of bits used for Global History
+int ghistoryBits = 13; // Number of bits used for Global History
 int bpType;       // Branch Prediction Type
 int verbose;
 
@@ -106,7 +106,7 @@ train_gshare(uint32_t pc, uint8_t outcome) {
     default:
       break;
   }
-  gHistoryTable = (1 << gHistoryTable) | outcome;
+  gHistoryTable = ((gHistoryTable << 1 ) | outcome);
 }
 
 void
