@@ -25,7 +25,7 @@ const char *bpName[4] = { "Static", "Gshare",
                           "Tournament", "Custom" };
 
 //define number of bits required for indexing the BHT here. 
-int ghistoryBits = 13; // Number of bits used for Global History
+int ghistoryBits = 10; // Number of bits used for Global History
 int bpType;       // Branch Prediction Type
 int verbose;
 
@@ -38,8 +38,8 @@ int verbose;
 //TODO: Add your own Branch Predictor data structures here
 //
 //gshare
-int *gpredictors;
-int gHistoryTable;
+uint8_t *bht_gshare;
+uint64_t ghistory;
 
 
 //------------------------------------//
@@ -51,67 +51,72 @@ int gHistoryTable;
 
 //gshare functions
 void init_gshare() {
-  int historyBits = 1 << ghistoryBits;
-  gpredictors = (int*) malloc(historyBits * sizeof(int));
-  for(int i = 0; i <= historyBits; i++) {
-    gpredictors[i] = WN;
+ int bht_entries = 1 << ghistoryBits;
+  bht_gshare = (uint8_t*)malloc(bht_entries * sizeof(uint8_t));
+  int i = 0;
+  for(i = 0; i< bht_entries; i++){
+    bht_gshare[i] = WN;
   }
-  gHistoryTable = 0;
+  ghistory = 0;
 }
 
 
 
 uint8_t 
 gshare_predict(uint32_t pc) {
-  int historyBits = 1 << ghistoryBits;
-  int pc_lower_bits = pc & (historyBits - 1);
-  int ghistory_lower = gHistoryTable & (historyBits - 1);
-  int historyIndex = pc_lower_bits ^ (ghistory_lower);
-
-  switch(gpredictors[historyIndex]) {
-    case SN:
-      return NOTTAKEN;
+  //get lower ghistoryBits of pc
+  uint32_t bht_entries = 1 << ghistoryBits;
+  uint32_t pc_lower_bits = pc & (bht_entries-1);
+  uint32_t ghistory_lower_bits = ghistory & (bht_entries -1);
+  uint32_t index = pc_lower_bits ^ ghistory_lower_bits;
+  switch(bht_gshare[index]){
     case WN:
+      return NOTTAKEN;
+    case SN:
       return NOTTAKEN;
     case WT:
       return TAKEN;
     case ST:
       return TAKEN;
     default:
-      printf("Undefined state in predictor table");
+      printf("Warning: Undefined state of entry in GSHARE BHT!\n");
       return NOTTAKEN;
   }
 }
 
 void
 train_gshare(uint32_t pc, uint8_t outcome) {
-  uint32_t historyBits = 1 << ghistoryBits;
-  uint32_t pc_lower_bits = pc & (historyBits - 1);
-  uint32_t ghistory_lower = gHistoryTable & (historyBits - 1);
-  uint32_t historyIndex = pc_lower_bits ^ (ghistory_lower);
+  //get lower ghistoryBits of pc
+  uint32_t bht_entries = 1 << ghistoryBits;
+  uint32_t pc_lower_bits = pc & (bht_entries-1);
+  uint32_t ghistory_lower_bits = ghistory & (bht_entries -1);
+  uint32_t index = pc_lower_bits ^ ghistory_lower_bits;
 
-  switch(gpredictors[historyIndex]) {
-    case SN:
-      gpredictors[historyIndex] = (outcome == TAKEN) ? WN : SN;
-      break;
+  //Update state of entry in bht based on outcome
+  switch(bht_gshare[index]){
     case WN:
-      gpredictors[historyIndex] = (outcome == TAKEN) ? WT : SN;
+      bht_gshare[index] = (outcome==TAKEN)?WT:SN;
+      break;
+    case SN:
+      bht_gshare[index] = (outcome==TAKEN)?WN:SN;
       break;
     case WT:
-      gpredictors[historyIndex] = (outcome == TAKEN) ? ST : WN;
+      bht_gshare[index] = (outcome==TAKEN)?ST:WN;
       break;
     case ST:
-      gpredictors[historyIndex] = (outcome == TAKEN) ? ST : WT;
+      bht_gshare[index] = (outcome==TAKEN)?ST:WT;
       break;
     default:
-      break;
+      printf("Warning: Undefined state of entry in GSHARE BHT!\n");
   }
-  gHistoryTable = ((gHistoryTable << 1 ) | outcome);
+
+  //Update history register
+  ghistory = ((ghistory << 1) | outcome); 
 }
 
 void
 cleanup_gshare() {
-  free(gpredictors);
+  free(bht_gshare);
 }
 
 

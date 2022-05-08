@@ -44,7 +44,6 @@ handle_option(char *arg)
     bpType = STATIC;
   } else if (!strncmp(arg,"--gshare",8)) {
     bpType = GSHARE;
-    // sscanf(arg+9,"%d", &ghistoryBits);
   } else if (!strncmp(arg,"--tournament",12)) {
     bpType = TOURNAMENT;
   } else if (!strncmp(arg,"--custom",8)) {
