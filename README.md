@@ -31,6 +31,11 @@ You will add the tournament code based on the implementation that can be found i
 
 You need to edit the predictor.c for the most part. Add your functions and make sure they are referenced correctly so that your code runs perfectly. Do not edit any other files.
 
+## Testing
+To test your code in an environment similar to the autograder, we have created a docker image with the same specifications. To get this image, first install Docker on your computer. Then run command `docker pull gandhardesh13/240a_base:v2`. To run this image on your computer, run the following command `docker run --rm -it -v /path/to/branch/predictor/:/path/on/ubuntu/ gandhardesh13/240a_base:v2`
+A little more explanation on all these arguments you just added in your command : --rm will remove the container when you exit it, freeing up your resources. -it will make the container interactive.
+-v is used to bind a path on your computer to a path on the image. This helps you to develop your code on your computer in an IDE and just run it using the docker container. Please reach out to the course staff, if you face further challenges running this.
+
 ## Deliverables
 
 The code, of course!!! We need to get the link of a git repository that you are using to store this code. Please make sure you are using the main branch of the git repository for your final submission. Along with this, you will also submit a PDF, which will include a brief description of your choice of custom predictor and its implementation. You should also include a table which shows the performance of the tournament predictor as well as your custom predictor for all the given traces. You should also include a table which shows your total hardware budget usage.
